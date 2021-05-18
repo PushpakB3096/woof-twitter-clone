@@ -1,6 +1,12 @@
 import React from "react";
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import {
+  ApolloClient,
+  ApolloProvider,
+  HttpLink,
+  InMemoryCache,
+} from "@apollo/client";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { setContext } from "apollo-link-context";
 
 import Users from "./components/Users";
 import Landing from "./components/Landing";
@@ -8,8 +14,25 @@ import Landing from "./components/Landing";
 import "./App.css";
 
 // config to connect to backend
-const client = new ApolloClient({
+const httpLink = new HttpLink({
   uri: `${process.env.REACT_APP_BACKEND_URI}`,
+});
+
+const authLink = setContext(async (req, { headers }) => {
+  const token = localStorage.getItem("token");
+
+  return {
+    ...headers,
+    headers: {
+      Authorization: token ? `Bearer ${token}` : null,
+    },
+  };
+});
+
+const link = authLink.concat(httpLink as any);
+
+const client = new ApolloClient({
+  link: link as any,
   cache: new InMemoryCache(),
 });
 
