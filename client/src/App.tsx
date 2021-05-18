@@ -1,5 +1,6 @@
 import React from "react";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import Users from "./components/Users";
 import "./App.css";
@@ -13,9 +14,13 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      <div>
-        <Users />
-      </div>
+      <Router>
+        <Switch>
+          <Route path="/">
+            <Users />
+          </Route>
+        </Switch>
+      </Router>
     </ApolloProvider>
   );
 }
