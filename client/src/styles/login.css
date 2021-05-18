@@ -76,7 +76,6 @@ button:disabled {
 }
 a {
   text-decoration: none;
-  /* color: var(--main-color); */
 }
 
 .login {

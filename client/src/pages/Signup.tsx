@@ -1,8 +1,10 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { gql, useMutation } from "@apollo/client";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
+
+import WoofLogo from "../styles/assets/woof-logo.png";
 
 // all custom types go here
 // types for all input values
@@ -58,8 +60,14 @@ const Signup = () => {
   });
 
   return (
-    <div>
-      <h1>Signup</h1>
+    <div className="container">
+      <img
+        src={WoofLogo}
+        alt="WoofLogo"
+        style={{ width: "50px" }}
+        className="logo"
+      />
+      <h3>Signup</h3>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -96,9 +104,16 @@ const Signup = () => {
           />
           <ErrorMessage name="confirmPassword" component={"div"} />
           {/* submit button */}
-          <button type="submit">Signup</button>
+          <button type="submit" className="login-button">
+            <span>Signup</span>
+          </button>
         </Form>
       </Formik>
+
+      <div className="register">
+        <h4>Already have an account?</h4>
+        <Link to="/login">Login here!</Link>
+      </div>
     </div>
   );
 };

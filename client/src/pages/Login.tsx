@@ -3,6 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import { gql, useMutation } from "@apollo/client";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
+
 import WoofLogo from "../styles/assets/woof-logo.png";
 
 // all custom types go here
@@ -44,7 +45,7 @@ const Login = () => {
   });
 
   return (
-    <div>
+    <div className="container">
       <img
         src={WoofLogo}
         alt="WoofLogo"
