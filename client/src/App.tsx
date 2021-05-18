@@ -11,10 +11,10 @@ import { setContext } from "apollo-link-context";
 import Users from "./components/Users";
 import Landing from "./components/Landing";
 import Signup from "./pages/Signup";
-
-import "./App.css";
 import Login from "./pages/Login";
 import IsAuthenticated from "./components/IsAuthenticated";
+
+import "./App.css";
 
 // config to connect to backend
 const httpLink = new HttpLink({
