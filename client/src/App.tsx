@@ -53,10 +53,13 @@ function App() {
           <Route exact path="/login">
             <Login />
           </Route>
-          {/* adding nav guard */}
           <IsAuthenticated>
+            {/* adding nav guard */}
             <Route exact path="/users">
               <Users />
+            </Route>
+            <Route exact path="/landing">
+              <Landing />
             </Route>
           </IsAuthenticated>
         </Switch>
