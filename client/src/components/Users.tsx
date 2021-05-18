@@ -19,7 +19,9 @@ interface User {
 const Users = () => {
   const { loading, error, data } = useQuery(USERS_QUERY);
 
+  // showing loading message when data is being fetched
   if (loading) return <p>Loading...</p>;
+  // showing error
   if (error) return <p>{error.message}</p>;
 
   return (

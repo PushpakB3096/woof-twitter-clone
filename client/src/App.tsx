@@ -14,6 +14,7 @@ import Signup from "./pages/Signup";
 
 import "./App.css";
 import Login from "./pages/Login";
+import IsAuthenticated from "./components/IsAuthenticated";
 
 // config to connect to backend
 const httpLink = new HttpLink({
@@ -46,15 +47,18 @@ function App() {
           <Route exact path="/">
             <Landing />
           </Route>
-          <Route exact path="/users">
-            <Users />
-          </Route>
           <Route exact path="/signup">
             <Signup />
           </Route>
           <Route exact path="/login">
             <Login />
           </Route>
+          {/* adding nav guard */}
+          <IsAuthenticated>
+            <Route exact path="/users">
+              <Users />
+            </Route>
+          </IsAuthenticated>
         </Switch>
       </Router>
     </ApolloProvider>
