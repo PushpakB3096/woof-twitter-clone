@@ -13,6 +13,7 @@ import Landing from "./components/Landing";
 import Signup from "./pages/Signup";
 
 import "./App.css";
+import Login from "./pages/Login";
 
 // config to connect to backend
 const httpLink = new HttpLink({
@@ -50,6 +51,9 @@ function App() {
           </Route>
           <Route exact path="/signup">
             <Signup />
+          </Route>
+          <Route exact path="/login">
+            <Login />
           </Route>
         </Switch>
       </Router>
