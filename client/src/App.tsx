@@ -10,6 +10,7 @@ import { setContext } from "apollo-link-context";
 
 import Users from "./components/Users";
 import Landing from "./components/Landing";
+import Signup from "./pages/Signup";
 
 import "./App.css";
 
@@ -46,6 +47,9 @@ function App() {
           </Route>
           <Route exact path="/users">
             <Users />
+          </Route>
+          <Route exact path="/signup">
+            <Signup />
           </Route>
         </Switch>
       </Router>
