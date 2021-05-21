@@ -41,20 +41,20 @@ const Query = objectType({
       },
     })
 
-    t.nullable.field('postById', {
-      type: 'Post',
+    t.nullable.field('woofById', {
+      type: 'Woof',
       args: {
         id: intArg(),
       },
       resolve: (_parent, args, context: Context) => {
-        return context.prisma.post.findUnique({
+        return context.prisma.woof.findUnique({
           where: { id: args.id || undefined },
         })
       },
     })
 
     t.nonNull.list.nonNull.field('feed', {
-      type: 'Post',
+      type: 'Woof',
       args: {
         searchString: stringArg(),
         skip: intArg(),
@@ -67,48 +67,45 @@ const Query = objectType({
         const or = args.searchString
           ? {
             OR: [
-              { title: { contains: args.searchString } },
               { content: { contains: args.searchString } },
             ],
           }
           : {}
 
-        return context.prisma.post.findMany({
+        return context.prisma.woof.findMany({
           where: {
-            published: true,
             ...or,
           },
           take: args.take || undefined,
-          skip: args.skip || undefined,
-          orderBy: args.orderBy || undefined,
+          skip: args.skip || undefined
         })
       },
     })
 
-    t.list.field('draftsByUser', {
-      type: 'Post',
-      args: {
-        userUniqueInput: nonNull(
-          arg({
-            type: 'UserUniqueInput',
-          }),
-        ),
-      },
-      resolve: (_parent, args, context: Context) => {
-        return context.prisma.user
-          .findUnique({
-            where: {
-              id: args.userUniqueInput.id || undefined,
-              email: args.userUniqueInput.email || undefined,
-            },
-          })
-          .posts({
-            where: {
-              published: false,
-            },
-          })
-      },
-    })
+    // t.list.field('draftsByUser', {
+    //   type: 'Woof',
+    //   args: {
+    //     userUniqueInput: nonNull(
+    //       arg({
+    //         type: 'UserUniqueInput',
+    //       }),
+    //     ),
+    //   },
+    //   resolve: (_parent, args, context: Context) => {
+    //     return context.prisma.user
+    //       .findUnique({
+    //         where: {
+    //           id: args.userUniqueInput.id || undefined,
+    //           email: args.userUniqueInput.email || undefined,
+    //         },
+    //       })
+    //       .woofs({
+    //         where: {
+    //           published: false,
+    //         },
+    //       })
+    //   },
+    // })
   },
 })
 
@@ -165,19 +162,18 @@ const Mutation = objectType({
     })
 
     t.field('createDraft', {
-      type: 'Post',
+      type: 'Woof',
       args: {
         data: nonNull(
           arg({
-            type: 'PostCreateInput',
+            type: 'WoofCreateInput',
           }),
         ),
       },
       resolve: (_, args, context: Context) => {
         const userId = getUserId(context)
-        return context.prisma.post.create({
+        return context.prisma.woof.create({
           data: {
-            title: args.data.title,
             content: args.data.content,
             authorId: userId,
           },
@@ -185,55 +181,52 @@ const Mutation = objectType({
       },
     })
 
-    t.field('togglePublishPost', {
-      type: 'Post',
-      args: {
-        id: nonNull(intArg()),
-      },
-      resolve: async (_, args, context: Context) => {
-        try {
-          const post = await context.prisma.post.findUnique({
-            where: { id: args.id || undefined },
-            select: {
-              published: true,
-            },
-          })
-          return context.prisma.post.update({
-            where: { id: args.id || undefined },
-            data: { published: !post?.published },
-          })
-        } catch (e) {
-          throw new Error(
-            `Post with ID ${args.id} does not exist in the database.`,
-          )
-        }
-      },
-    })
+    // t.field('togglePublishPost', {
+    //   type: 'Post',
+    //   args: {
+    //     id: nonNull(intArg()),
+    //   },
+    //   resolve: async (_, args, context: Context) => {
+    //     try {
+    //       const post = await context.prisma.woof.findUnique({
+    //         where: { id: args.id || undefined }
+    //       })
+    //       return context.prisma.woof.update({
+    //         where: { id: args.id || undefined },
+    //         data: { published: !post?.published },
+    //       })
+    //     } catch (e) {
+    //       throw new Error(
+    //         `Post with ID ${args.id} does not exist in the database.`,
+    //       )
+    //     }
+    //   },
+    // })
 
-    t.field('incrementPostViewCount', {
-      type: 'Post',
+    // t.field('incrementPostViewCount', {
+    //   type: 'Post',
+    //   args: {
+    //     id: nonNull(intArg()),
+    //   },
+    //   resolve: (_, args, context: Context) => {
+    //     return context.prisma.post.update({
+    //       where: { id: args.id || undefined },
+    //       data: {
+    //         viewCount: {
+    //           increment: 1,
+    //         },
+    //       },
+    //     })
+    //   },
+    // })
+
+    t.field('deleteWoof', {
+      type: 'Woof',
       args: {
         id: nonNull(intArg()),
       },
       resolve: (_, args, context: Context) => {
-        return context.prisma.post.update({
-          where: { id: args.id || undefined },
-          data: {
-            viewCount: {
-              increment: 1,
-            },
-          },
-        })
-      },
-    })
-
-    t.field('deletePost', {
-      type: 'Post',
-      args: {
-        id: nonNull(intArg()),
-      },
-      resolve: (_, args, context: Context) => {
-        return context.prisma.post.delete({
+        return context.prisma.woof.delete({
           where: { id: args.id },
         })
       },
@@ -247,37 +240,80 @@ const User = objectType({
     t.nonNull.int('id')
     t.string('name')
     t.nonNull.string('email')
-    t.nonNull.list.nonNull.field('posts', {
-      type: 'Post',
+    t.nonNull.list.nonNull.field('woofs', {
+      type: 'Woof',
       resolve: (parent, _, context: Context) => {
         return context.prisma.user
           .findUnique({
             where: { id: parent.id || undefined },
           })
-          .posts()
+          .woofs()
       },
     })
   },
 })
 
-const Post = objectType({
-  name: 'Post',
+// const Post = objectType({
+//   name: 'Post',
+//   definition(t) {
+//     t.nonNull.int('id')
+//     t.nonNull.field('createdAt', { type: 'DateTime' })
+//     t.nonNull.field('updatedAt', { type: 'DateTime' })
+//     t.nonNull.string('title')
+//     t.string('content')
+//     t.nonNull.boolean('published')
+//     t.nonNull.int('viewCount')
+//     t.field('author', {
+//       type: 'User',
+//       resolve: (parent, _, context: Context) => {
+//         return context.prisma.post
+//           .findUnique({
+//             where: { id: parent.id || undefined },
+//           })
+//           .author()
+//       },
+//     })
+//   },
+// })
+
+// schema for Woof
+const Woof = objectType({
+  name: 'Woof',
   definition(t) {
     t.nonNull.int('id')
     t.nonNull.field('createdAt', { type: 'DateTime' })
-    t.nonNull.field('updatedAt', { type: 'DateTime' })
-    t.nonNull.string('title')
-    t.string('content')
-    t.nonNull.boolean('published')
-    t.nonNull.int('viewCount')
+    t.nonNull.string('content')
     t.field('author', {
       type: 'User',
       resolve: (parent, _, context: Context) => {
-        return context.prisma.post
+        return context.prisma.woof
           .findUnique({
             where: { id: parent.id || undefined },
           })
           .author()
+      },
+    })
+  },
+})
+
+// schema for Profile
+const Profile = objectType({
+  name: 'Profile',
+  definition(t) {
+    t.nonNull.int('id')
+    t.nonNull.field('createdAt', { type: 'DateTime' })
+    t.string('bio')
+    t.string('location')
+    t.string('website')
+    t.string('avatar')
+    t.field('user', {
+      type: 'User',
+      resolve: (parent, _, context: Context) => {
+        return context.prisma.profile
+          .findUnique({
+            where: { id: parent.id || undefined },
+          })
+          .user()
       },
     })
   },
@@ -303,11 +339,10 @@ const UserUniqueInput = inputObjectType({
   },
 })
 
-const PostCreateInput = inputObjectType({
-  name: 'PostCreateInput',
+const WoofCreateInput = inputObjectType({
+  name: 'WoofCreateInput',
   definition(t) {
-    t.nonNull.string('title')
-    t.string('content')
+    t.nonNull.string('content')
   },
 })
 
@@ -316,7 +351,7 @@ const UserCreateInput = inputObjectType({
   definition(t) {
     t.nonNull.string('email')
     t.string('name')
-    t.list.nonNull.field('posts', { type: 'PostCreateInput' })
+    t.list.nonNull.field('woofs', { type: 'WoofCreateInput' })
   },
 })
 
@@ -332,12 +367,13 @@ const schemaWithoutPermissions = makeSchema({
   types: [
     Query,
     Mutation,
-    Post,
+    Woof,
+    Profile,
     User,
     AuthPayload,
     UserUniqueInput,
     UserCreateInput,
-    PostCreateInput,
+    WoofCreateInput,
     SortOrder,
     PostOrderByUpdatedAtInput,
     DateTime,

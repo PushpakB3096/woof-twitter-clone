@@ -7,9 +7,9 @@ const rules = {
     const userId = getUserId(context)
     return Boolean(userId)
   }),
-  isPostOwner: rule()(async (_parent, args, context) => {
+  isWoofOwner: rule()(async (_parent, args, context) => {
     const userId = getUserId(context)
-    const author = await context.prisma.post
+    const author = await context.prisma.woof
       .findUnique({
         where: {
           id: Number(args.id),
@@ -23,13 +23,13 @@ const rules = {
 export const permissions = shield({
   Query: {
     me: rules.isAuthenticatedUser,
-    draftsByUser: rules.isAuthenticatedUser,
-    postById: rules.isAuthenticatedUser,
+    // draftsByUser: rules.isAuthenticatedUser,
+    woofById: rules.isAuthenticatedUser,
   },
   Mutation: {
     createDraft: rules.isAuthenticatedUser,
-    deletePost: rules.isPostOwner,
-    incrementPostViewCount: rules.isAuthenticatedUser,
-    togglePublishPost: rules.isPostOwner,
+    deleteWoof: rules.isWoofOwner,
+    // incrementPostViewCount: rules.isAuthenticatedUser,
+    // togglePublishPost: rules.isWoofOwner,
   },
 })

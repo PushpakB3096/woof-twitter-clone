@@ -13,40 +13,31 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 scalar DateTime
 
 type Mutation {
-  createDraft(data: PostCreateInput!): Post
-  deletePost(id: Int!): Post
-  incrementPostViewCount(id: Int!): Post
+  createDraft(data: WoofCreateInput!): Woof
+  deleteWoof(id: Int!): Woof
   login(email: String!, password: String!): AuthPayload
   signup(email: String!, name: String, password: String!): AuthPayload
-  togglePublishPost(id: Int!): Post
-}
-
-type Post {
-  author: User
-  content: String
-  createdAt: DateTime!
-  id: Int!
-  published: Boolean!
-  title: String!
-  updatedAt: DateTime!
-  viewCount: Int!
-}
-
-input PostCreateInput {
-  content: String
-  title: String!
 }
 
 input PostOrderByUpdatedAtInput {
   updatedAt: SortOrder!
 }
 
+type Profile {
+  avatar: String
+  bio: String
+  createdAt: DateTime!
+  id: Int!
+  location: String
+  user: User
+  website: String
+}
+
 type Query {
   allUsers: [User!]!
-  draftsByUser(userUniqueInput: UserUniqueInput!): [Post]
-  feed(orderBy: PostOrderByUpdatedAtInput, searchString: String, skip: Int, take: Int): [Post!]!
+  feed(orderBy: PostOrderByUpdatedAtInput, searchString: String, skip: Int, take: Int): [Woof!]!
   me: User
-  postById(id: Int): Post
+  woofById(id: Int): Woof
 }
 
 enum SortOrder {
@@ -58,16 +49,27 @@ type User {
   email: String!
   id: Int!
   name: String
-  posts: [Post!]!
+  woofs: [Woof!]!
 }
 
 input UserCreateInput {
   email: String!
   name: String
-  posts: [PostCreateInput!]
+  woofs: [WoofCreateInput!]
 }
 
 input UserUniqueInput {
   email: String
   id: Int
+}
+
+type Woof {
+  author: User
+  content: String!
+  createdAt: DateTime!
+  id: Int!
+}
+
+input WoofCreateInput {
+  content: String!
 }
