@@ -13,6 +13,7 @@ import {
   arg,
   asNexusMethod,
   enumType,
+  nullable,
 } from 'nexus'
 import { DateTimeResolver } from 'graphql-scalars'
 import { Context } from './context'
@@ -176,6 +177,35 @@ const Mutation = objectType({
           data: {
             content: args.data.content,
             authorId: userId,
+          },
+        })
+      },
+    })
+
+    // mutation to create profiles
+    t.field('createProfile', {
+      type: 'Profile',
+      args: {
+        // data: nonNull(
+        //   arg({
+        //     type: 'ProfileCreateInput',
+        //   }),
+        // ),
+        bio: stringArg(),
+        location: stringArg(),
+        website: stringArg(),
+        avatar: stringArg(),
+      },
+      resolve: (_, args, context: Context) => {
+        const userId = getUserId(context)
+        return context.prisma.profile.create({
+          data: {
+            // bio: args.data.bio,
+            // location: args.data.location,
+            // website: args.data.website,
+            // avatar: args.data.avatar
+            ...args,
+            user: { connect: { id: Number(userId)}}
           },
         })
       },
@@ -346,6 +376,17 @@ const WoofCreateInput = inputObjectType({
   },
 })
 
+const ProfileCreateInput = inputObjectType({
+  name: 'ProfileCreateInput',
+  definition(t) {
+    t.string('bio')
+    t.string('location')
+    t.string('website')
+    t.string('avatar')
+    // t.field('user', { type: 'User' })
+  },
+})
+
 const UserCreateInput = inputObjectType({
   name: 'UserCreateInput',
   definition(t) {
@@ -373,6 +414,7 @@ const schemaWithoutPermissions = makeSchema({
     AuthPayload,
     UserUniqueInput,
     UserCreateInput,
+    ProfileCreateInput,
     WoofCreateInput,
     SortOrder,
     PostOrderByUpdatedAtInput,

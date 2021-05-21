@@ -14,6 +14,7 @@ scalar DateTime
 
 type Mutation {
   createDraft(data: WoofCreateInput!): Woof
+  createProfile(avatar: String, bio: String, location: String, website: String): Profile
   deleteWoof(id: Int!): Woof
   login(email: String!, password: String!): AuthPayload
   signup(email: String!, name: String, password: String!): AuthPayload
@@ -30,6 +31,13 @@ type Profile {
   id: Int!
   location: String
   user: User
+  website: String
+}
+
+input ProfileCreateInput {
+  avatar: String
+  bio: String
+  location: String
   website: String
 }
 
