@@ -65,7 +65,7 @@ const UpdateProfile = () => {
 
   return (
     <div>
-      <button onClick={openModal}>Update Profile</button>
+      <button onClick={openModal} className="edit-button">Edit Profile</button>
       <Modal isOpen={isModalOpen} onRequestClose={closeModal} contentLabel="Modal" style={customStyles}>
         <Formik
           initialValues={initialValues}
