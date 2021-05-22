@@ -1,6 +1,7 @@
 import React from 'react'
 import { gql, useQuery } from "@apollo/client";
 import CreateProfile from '../components/CreateProfile';
+import UpdateProfile from '../components/UpdateProfile';
 
 // query to fetch the loggedin user's data
 export const ME_QUERY = gql`
@@ -27,6 +28,7 @@ const Profile = () => {
         <div className="container">
             <h1>Profile</h1>
             <CreateProfile />
+            <UpdateProfile />
         </div>
     )
 }
