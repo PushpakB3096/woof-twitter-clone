@@ -31,10 +31,10 @@ const Query = objectType({
     })
 
     t.nullable.field('me', {
-      type: 'User',
+      type: 'Profile',
       resolve: (parent, args, context: Context) => {
         const userId = getUserId(context)
-        return context.prisma.user.findUnique({
+        return context.prisma.profile.findUnique({
           where: {
             id: Number(userId),
           },
