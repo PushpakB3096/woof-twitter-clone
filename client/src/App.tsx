@@ -15,6 +15,7 @@ import Login from "./pages/Login";
 import IsAuthenticated from "./components/IsAuthenticated";
 
 import "./App.css";
+import Profile from "./pages/Profile";
 
 // config to connect to backend
 const httpLink = new HttpLink({
@@ -53,13 +54,16 @@ function App() {
           <Route exact path="/login">
             <Login />
           </Route>
+          {/* the routes inside this will require authentication to access */}
           <IsAuthenticated>
-            {/* adding nav guard */}
             <Route exact path="/users">
               <Users />
             </Route>
             <Route exact path="/landing">
               <Landing />
+            </Route>
+            <Route exact path="/profile">
+              <Profile />
             </Route>
           </IsAuthenticated>
         </Switch>

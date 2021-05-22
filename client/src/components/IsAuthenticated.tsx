@@ -1,4 +1,4 @@
-import React, { Children } from "react";
+import React from "react";
 import { gql, useQuery } from "@apollo/client";
 import { Redirect } from "react-router";
 
