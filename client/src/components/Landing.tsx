@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
 import WoofLogo from "../styles/assets/woof-logo.png";
+import "../styles/landing.css"
 
 const Landing = () => {
   return (

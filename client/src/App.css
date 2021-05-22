@@ -3,10 +3,6 @@
   --button-hover-color: #228dcf;
 }
 
-/* adding all component level styles here */
-@import "./styles/login.css";
-@import "./styles/landing.css";
-
 textarea {
   color: rgb(38, 50, 56);
   font-weight: 600;
