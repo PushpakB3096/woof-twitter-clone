@@ -16,6 +16,10 @@ export const ME_QUERY = gql`
             location
             website
             avatar
+            user {
+                name
+                email
+            }
         }
     }
 `
@@ -36,6 +40,9 @@ const Profile = () => {
                         {/* arrow that will take you back to the previous page */}
                         <span className="back-arrow" onClick={() => history.goBack()}>
                             <i className="fa fa-arrow-left" aria-hidden="true"></i>
+                        </span>
+                        <span className="nickname">
+                            <h3>{data.currentProfile.user.name}</h3>
                         </span>
                     </div>
                 </div>
