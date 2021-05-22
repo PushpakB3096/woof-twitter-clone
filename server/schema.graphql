@@ -18,6 +18,7 @@ type Mutation {
   deleteWoof(id: Int!): Woof
   login(email: String!, password: String!): AuthPayload
   signup(email: String!, name: String, password: String!): AuthPayload
+  updateProfile(avatar: String, bio: String, location: String, website: String): Profile
 }
 
 input PostOrderByUpdatedAtInput {
@@ -31,13 +32,6 @@ type Profile {
   id: Int!
   location: String
   user: User
-  website: String
-}
-
-input ProfileCreateInput {
-  avatar: String
-  bio: String
-  location: String
   website: String
 }
 

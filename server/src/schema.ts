@@ -199,11 +199,6 @@ const Mutation = objectType({
     t.field('createProfile', {
       type: 'Profile',
       args: {
-        // data: nonNull(
-        //   arg({
-        //     type: 'ProfileCreateInput',
-        //   }),
-        // ),
         bio: stringArg(),
         location: stringArg(),
         website: stringArg(),
@@ -213,12 +208,31 @@ const Mutation = objectType({
         const userId = getUserId(context)
         return context.prisma.profile.create({
           data: {
-            // bio: args.data.bio,
-            // location: args.data.location,
-            // website: args.data.website,
-            // avatar: args.data.avatar
             ...args,
             user: { connect: { id: Number(userId) } }
+          },
+        })
+      },
+    })
+
+    // mutation to update profiles
+    t.field('updateProfile', {
+      type: 'Profile',
+      args: {
+        // id: intArg(),
+        bio: stringArg(),
+        location: stringArg(),
+        website: stringArg(),
+        avatar: stringArg(),
+      },
+      resolve: (_, args, context: Context) => {
+        const userId = getUserId(context)
+        return context.prisma.profile.update({
+          where: {
+            id: Number(userId)
+          },
+          data: {
+            ...args
           },
         })
       },
@@ -389,16 +403,15 @@ const WoofCreateInput = inputObjectType({
   },
 })
 
-const ProfileCreateInput = inputObjectType({
-  name: 'ProfileCreateInput',
-  definition(t) {
-    t.string('bio')
-    t.string('location')
-    t.string('website')
-    t.string('avatar')
-    // t.field('user', { type: 'User' })
-  },
-})
+// const ProfileCreateInput = inputObjectType({
+//   name: 'ProfileCreateInput',
+//   definition(t) {
+//     t.string('bio')
+//     t.string('location')
+//     t.string('website')
+//     t.string('avatar')
+//   },
+// })
 
 const UserCreateInput = inputObjectType({
   name: 'UserCreateInput',
@@ -427,7 +440,6 @@ const schemaWithoutPermissions = makeSchema({
     AuthPayload,
     UserUniqueInput,
     UserCreateInput,
-    ProfileCreateInput,
     WoofCreateInput,
     SortOrder,
     PostOrderByUpdatedAtInput,
