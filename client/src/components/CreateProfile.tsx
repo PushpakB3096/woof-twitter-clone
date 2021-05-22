@@ -73,10 +73,12 @@ const CreateProfile = () => {
             });
 
             setSubmitting(false);
+            // close modal after submitting
+            setIsModalOpen(false);
           }}
         >
           <Form>
-            <Field name="bio" type="text" as="textArea" placeholder="Enter your bio" />
+            <Field name="bio" type="text" as="textarea" placeholder="Enter your bio" />
             <ErrorMessage name="bio" component={"div"} />
             <Field name="location" type="text" placeholder="Enter your location" />
             <ErrorMessage name="location" component={"div"} />

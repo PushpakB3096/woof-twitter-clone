@@ -21,14 +21,11 @@ const Profile = () => {
 
     if (error) return <p>{error.message}</p>
 
+    console.log(data)
+
     return (
         <div className="container">
             <h1>Profile</h1>
-            {/* {data.me.Profile.id} */}
-            {/* {data.me.Profile.bio}
-            {data.me.Profile.location}
-            {data.me.Profile.website}
-            {data.me.Profile.avatar} */}
             <CreateProfile />
         </div>
     )
