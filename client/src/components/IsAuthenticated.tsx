@@ -4,12 +4,12 @@ import { Redirect } from "react-router";
 
 // gql query to fetch the current user
 export const IS_LOGGED_IN = gql`
-  {
+query me {
     me {
-      id
+        id
     }
-  }
-`;
+}
+`
 
 // defining prop types
 interface Props {
@@ -26,7 +26,7 @@ const IsAuthenticated = ({ children }: Props) => {
 
   // if the user is not logged in, the redirect back to the landing page
   if (!data.me) {
-    return <Redirect to={{ pathname: "/landing" }} />;
+    return <Redirect to={{ pathname: "/" }} />;
   }
 
   // if the user is logged in, the show the component protected by this nav guard
