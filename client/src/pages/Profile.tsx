@@ -6,6 +6,7 @@ import CreateProfile from '../components/CreateProfile';
 import UpdateProfile from '../components/UpdateProfile';
 import "../styles/profile.css"
 import "../styles/primary.css"
+import LeftNav from '../components/LeftNav';
 
 // query to fetch the loggedin user's data
 export const ME_QUERY = gql`
@@ -33,7 +34,9 @@ const Profile = () => {
     console.log(data.currentProfile)
     return (
         <div className="primary">
-            <div className="left">Left Pane</div>
+            <div className="left">
+                <LeftNav />
+            </div>
             <div className="profile">
                 <div className="profile-info">
                     <div className="profile-head">
