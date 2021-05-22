@@ -7,7 +7,6 @@ import {
 } from "@apollo/client";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { setContext } from "apollo-link-context";
-import { onError } from 'apollo-link-error'
 
 import Users from "./components/Users";
 import Landing from "./components/Landing";
@@ -34,11 +33,7 @@ const authLink = setContext(async (req, { headers }) => {
   };
 });
 
-const errorLink = onError(({ graphQLErrors }) => {
-  if (graphQLErrors) graphQLErrors.map(({ message }) => console.log(message))
-})
-
-const link = authLink.concat(httpLink as any).concat(errorLink as any);
+const link = authLink.concat(httpLink as any);
 
 const client = new ApolloClient({
   link: link as any,

@@ -2473,24 +2473,6 @@
     "apollo-link" "^1.2.14"
     "tslib" "^1.9.3"
 
-"apollo-link-error@^1.1.13":
-  "integrity" "sha512-jAZOOahJU6bwSqb2ZyskEK1XdgUY9nkmeclCrW7Gddh1uasHVqmoYc4CKdb0/H0Y1J9lvaXKle2Wsw/Zx1AyUg=="
-  "resolved" "https://registry.npmjs.org/apollo-link-error/-/apollo-link-error-1.1.13.tgz"
-  "version" "1.1.13"
-  dependencies:
-    "apollo-link" "^1.2.14"
-    "apollo-link-http-common" "^0.2.16"
-    "tslib" "^1.9.3"
-
-"apollo-link-http-common@^0.2.16":
-  "integrity" "sha512-2tIhOIrnaF4UbQHf7kjeQA/EmSorB7+HyJIIrUjJOKBgnXwuexi8aMecRlqTIDWcyVXCeqLhUnztMa6bOH/jTg=="
-  "resolved" "https://registry.npmjs.org/apollo-link-http-common/-/apollo-link-http-common-0.2.16.tgz"
-  "version" "0.2.16"
-  dependencies:
-    "apollo-link" "^1.2.14"
-    "ts-invariant" "^0.4.0"
-    "tslib" "^1.9.3"
-
 "apollo-link@^1.2.14":
   "integrity" "sha512-p67CMEFP7kOG1JZ0ZkYZwRDa369w5PIjtMjvrQd/HnIV8FRsHRqLqK+oAZQnFa1DDdZtOtHTi+aMIW6EatC2jg=="
   "resolved" "https://registry.npmjs.org/apollo-link/-/apollo-link-1.2.14.tgz"
