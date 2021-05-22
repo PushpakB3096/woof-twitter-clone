@@ -48,21 +48,18 @@ function App() {
           <Route exact path="/">
             <Landing />
           </Route>
-          <Route exact path="/signup">
+          <Route path="/signup">
             <Signup />
           </Route>
-          <Route exact path="/login">
+          <Route path="/login">
             <Login />
           </Route>
           {/* the routes inside this will require authentication to access */}
           <IsAuthenticated>
-            <Route exact path="/users">
+            <Route path="/users">
               <Users />
             </Route>
-            <Route exact path="/landing">
-              <Landing />
-            </Route>
-            <Route exact path="/profile">
+            <Route path="/profile">
               <Profile />
             </Route>
           </IsAuthenticated>
