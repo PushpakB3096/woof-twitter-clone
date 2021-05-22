@@ -22,13 +22,11 @@ const Profile = () => {
 
     if (error) return <p>{error.message}</p>
 
-    console.log(data)
-
     return (
         <div className="container">
             <h1>Profile</h1>
-            <CreateProfile />
-            <UpdateProfile />
+            {/* Show update button if the profile already exists with an ID */}
+            {data.currentProfile && data.currentProfile.id ? <UpdateProfile /> : <CreateProfile />}
         </div>
     )
 }

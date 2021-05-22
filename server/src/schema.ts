@@ -47,9 +47,10 @@ const Query = objectType({
       type: 'Profile',
       resolve: (parent, args, context: Context) => {
         const userId = getUserId(context)
+        console.log('cureentProfile id from log', userId)
         return context.prisma.profile.findUnique({
           where: {
-            id: Number(userId),
+            userId: Number(userId),
           },
         })
       },
@@ -219,7 +220,6 @@ const Mutation = objectType({
     t.field('updateProfile', {
       type: 'Profile',
       args: {
-        // id: intArg(),
         bio: stringArg(),
         location: stringArg(),
         website: stringArg(),
@@ -229,10 +229,10 @@ const Mutation = objectType({
         const userId = getUserId(context)
         return context.prisma.profile.update({
           where: {
-            id: Number(userId)
+            userId: Number(userId)
           },
           data: {
-            ...args
+            ...args,
           },
         })
       },
