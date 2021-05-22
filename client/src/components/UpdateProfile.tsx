@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { MutableRefObject, useRef, useState } from "react"
 import { gql, useMutation, useQuery } from '@apollo/client'
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import Modal from 'react-modal'
@@ -34,7 +34,12 @@ interface ProfileValues {
 
 
 const UpdateProfile = () => {
-  const { loading, error, data } = useQuery(ME_QUERY)
+  const { loading, error, data } = useQuery(ME_QUERY);
+
+  // image handling below
+  const inputFile = useRef() as MutableRefObject<HTMLInputElement>;
+  const [image, setImage] = useState("");
+  const [imageLoading, setImageLoading] = useState(false);
 
   // refetchQuery is for running a query again and re-rendering the DOM
   const [updateProfile] = useMutation(UPDATE_PROFILE_MUTATION, {
@@ -63,10 +68,55 @@ const UpdateProfile = () => {
   const openModal = () => setIsModalOpen(true)
   const closeModal = () => setIsModalOpen(false)
 
+  // function that will handle image uploads
+  const uploadImage = async (e: any) => {
+    const files = e.target.files;
+    const data = new FormData();
+
+    data.append('file', files[0]);
+    // name of the preset from Cloudinary
+    data.append('upload_preset', 'r1ygficv');
+
+    // loading for image
+    setImageLoading(true);
+
+    const res = await fetch(`${process.env.REACT_APP_IMAGE_ENDPOINT}`, {
+      method: "POST",
+      body: data
+    });
+
+    const file = await res.json();
+
+    setImage(file.secure_url);
+
+    setImageLoading(false);
+  }
+
   return (
     <div>
       <button onClick={openModal} className="edit-button">Edit Profile</button>
       <Modal isOpen={isModalOpen} onRequestClose={closeModal} contentLabel="Modal" style={customStyles}>
+        {/* hidden input for files */}
+        <input type="file" name="file" onChange={uploadImage} ref={inputFile} style={{ display: "none" }} />
+        {imageLoading ? (
+          <h3>Loading...</h3>
+        ) : (
+          <>
+            {image ? (
+              <span onClick={() => inputFile.current.click()}>
+                <img
+                  src={image}
+                  style={{ width: "150px", borderRadius: "50%" }}
+                  alt="avatar" />
+              </span>
+
+            ) : (
+              <span onClick={() => inputFile.current.click()}>
+                <i className="fa fa-user fa-5x" aria-hidden="true"></i>
+              </span>
+            )}
+          </>
+        )}
         <Formik
           initialValues={initialValues}
           // validationSchema={validationSchema}
@@ -74,7 +124,7 @@ const UpdateProfile = () => {
             setSubmitting(true);
 
             await updateProfile({
-              variables: values,
+              variables: { ...values, avatar: image }
             });
 
             setSubmitting(false);
@@ -98,7 +148,7 @@ const UpdateProfile = () => {
           </Form>
         </Formik>
       </Modal>
-    </div>
+    </div >
   )
 }
 
