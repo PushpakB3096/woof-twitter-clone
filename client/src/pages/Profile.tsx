@@ -52,7 +52,13 @@ const Profile = () => {
                         </div>
                         {/* show avatar here */}
                         <div className="avatar">
-                            <i className="fa fa-user fa-5x" aria-hidden="true"></i>
+                            {data.currentProfile.avatar ? (
+                                // show the avatar only if it exists
+                                <img src={data.currentProfile.avatar} style={{ width: "150px", borderRadius: "50%" }} alt="avatar" />
+                            ) : (
+                                // show default image if it doesn't exist for the profile
+                                <i className="fa fa-user fa-5x" aria-hidden="true"></i>
+                            )}
                         </div>
                         {/* profile create/edit section */}
                         <div className="make-profile">
