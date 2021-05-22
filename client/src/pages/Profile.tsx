@@ -30,10 +30,10 @@ const Profile = () => {
     if (loading) return <p>Loading...</p>
 
     if (error) return <p>{error.message}</p>
-
+    console.log(data.currentProfile)
     return (
         <div className="primary">
-            <div className="left">Left Nav</div>
+            <div className="left">Left Pane</div>
             <div className="profile">
                 <div className="profile-info">
                     <div className="profile-head">
@@ -41,14 +41,40 @@ const Profile = () => {
                         <span className="back-arrow" onClick={() => history.goBack()}>
                             <i className="fa fa-arrow-left" aria-hidden="true"></i>
                         </span>
+                        {/* User's name appear here */}
                         <span className="nickname">
                             <h3>{data.currentProfile.user.name}</h3>
                         </span>
                     </div>
+                    {/* show avatar here */}
+                    <div className="avatar">
+                        <i className="fa fa-user fa-5x" aria-hidden="true"></i>
+                    </div>
+                    {/* profile create/edit section */}
+                    <div className="make-profile">
+                        {/* Show update button if the profile already exists with an ID */}
+                        {data.currentProfile && data.currentProfile.id ? <UpdateProfile /> : <CreateProfile />}
+                    </div>
+
+                    <h3 className="name">{data.currentProfile.user.name}</h3>
+
+                    {data.currentProfile && data.currentProfile.id &&
+                        <p>
+                            <i className="fas fa-link"></i>
+                            <Link to={{ pathname: `http://${data.currentProfile.website}` }} target="_blank">
+                                {data.currentProfile.website}
+                            </Link>
+                        </p>
+                    }
+                    <div className="followers">
+                        <p>384 following</p>
+                        <p>10202 followers</p>
+                    </div>
                 </div>
             </div>
-            {/* Show update button if the profile already exists with an ID */}
-            {data.currentProfile && data.currentProfile.id ? <UpdateProfile /> : <CreateProfile />}
+            <div className="right">
+                Right Pane
+            </div>
         </div>
     )
 }
