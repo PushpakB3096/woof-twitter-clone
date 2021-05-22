@@ -49,6 +49,8 @@ const UpdateProfile = () => {
   if (loading) return <p>Loading...</p>
   if (error) return <p>{error.message}</p>
 
+  Modal.setAppElement('#root');
+
   // setting initial form values from the current logged in profile
   const initialValues: ProfileValues = {
     bio: data.currentProfile.bio,

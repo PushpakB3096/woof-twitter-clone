@@ -58,6 +58,8 @@ const CreateProfile = () => {
   const openModal = () => setIsModalOpen(true)
   const closeModal = () => setIsModalOpen(false)
 
+  Modal.setAppElement('#root');
+
   return (
     <div>
       <button onClick={openModal}>Create Profile</button>
