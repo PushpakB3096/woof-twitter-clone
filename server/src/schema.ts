@@ -42,6 +42,19 @@ const Query = objectType({
       },
     })
 
+    // TODO: need to better handle profile and user relation
+    t.nullable.field('currentProfile', {
+      type: 'Profile',
+      resolve: (parent, args, context: Context) => {
+        const userId = getUserId(context)
+        return context.prisma.profile.findUnique({
+          where: {
+            id: Number(userId),
+          },
+        })
+      },
+    })
+
     t.nullable.field('woofById', {
       type: 'Woof',
       args: {
@@ -205,7 +218,7 @@ const Mutation = objectType({
             // website: args.data.website,
             // avatar: args.data.avatar
             ...args,
-            user: { connect: { id: Number(userId)}}
+            user: { connect: { id: Number(userId) } }
           },
         })
       },

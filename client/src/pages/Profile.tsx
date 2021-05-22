@@ -4,8 +4,8 @@ import CreateProfile from '../components/CreateProfile';
 
 // query to fetch the loggedin user's data
 export const ME_QUERY = gql`
-    query me {
-        me {
+    query currentProfile {
+        currentProfile {
             id
             bio
             location

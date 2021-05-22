@@ -43,6 +43,7 @@ input ProfileCreateInput {
 
 type Query {
   allUsers: [User!]!
+  currentProfile: Profile
   feed(orderBy: PostOrderByUpdatedAtInput, searchString: String, skip: Int, take: Int): [Woof!]!
   me: User
   woofById(id: Int): Woof
